@@ -3,7 +3,6 @@
 #define SLAVE_ADDRESS 0x48
 #define BAUDRATE 9600
 
-//#define WRITE_VALUE 0x52
 void setup() {
   // put your setup code here, to run once:
     Wire.begin(SLAVE_ADDRESS);
