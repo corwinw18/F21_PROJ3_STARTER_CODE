@@ -56,12 +56,30 @@
 /* Our Includes */
 //#include <HAL/>
 #include <HAL/I2C.h>
-#include <HAL/Button.h>
+//#include <HAL/Button.h>
 #include <HAL/Timer.h>
 #include <HAL/Graphics.h>
+#include <HAL/Button_withInterrupts.h>
+#include <HAL/LED.h>
 //----------------------------------------------------------------
 //A special pre-processor directive goes here. You need to find out what that directive is.
 //----------------------------------------------------------------
+
+
+
+void sleep() {
+    // The Launchpad RED LED is used to signify the processor is in low-power mode.
+    // From the human perspective, it should seem the processor is always asleep except for fractions of second here and there.
+
+    TurnOn_LL1();
+    // Enters the Low Power Mode 0 - the processor is asleep and only responds to interrupts
+    PCM_gotoLPM0();
+    TurnOff_LL1();
+
+}
+
+
+
 
 int main(void)
 {
@@ -71,8 +89,22 @@ int main(void)
     /* Init the custom system timing... may cause problems */
     InitSystemTiming();
 
+    initButtons();//initializes the buttons
+    initLEDs();   //initializes the LEDs
 
-    //TODO: Your code goes here
+    while(1)
+    {
+       sleep(); //force the processor into sleep mode (only waking for interrupts)
+
+       buttons_t buttons = updateButtons();//update the buttons pressings
+
+       //===============================================================
+       //TODO: Your code goes here
+       //===============================================================
+    }
+
+
+
 
 }
 
